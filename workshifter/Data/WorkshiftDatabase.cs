@@ -8,7 +8,7 @@ using workshifter.Model;
 
 namespace workshifter.Data
 {
-    class WorkshiftDatabase
+    public class WorkshiftDatabase
     {
         SQLiteAsyncConnection Database;
         public WorkshiftDatabase()
