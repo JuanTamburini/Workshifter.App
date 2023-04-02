@@ -1,24 +1,44 @@
-﻿namespace workshifter;
+﻿using System.Collections.ObjectModel;
+using workshifter.Data;
+using workshifter.Model;
+
+namespace workshifter;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-
-	public MainPage()
+    WorkshiftDatabase database;
+    public ObservableCollection<Workshift> Items { get; set; } = new();
+    public MainPage(WorkshiftDatabase workshiftDatabase)
 	{
 		InitializeComponent();
-	}
 
-	private void OnCounterClicked(object sender, EventArgs e)
+		database = workshiftDatabase;
+		BindingContext = this;
+
+        Appearing += async (s, e) => await UpdateCollectionView();
+    }
+
+	private async void OnCreateItemClicked(object sender, EventArgs e)
 	{
-		count++;
+        await database.SaveItemAsync(new Workshift());
+        await UpdateCollectionView();
+    }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+	private async Task UpdateCollectionView()
+	{
+        var items = await database.GetItemsAsync();
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+        Items.Clear();
+        foreach (var item in items)
+            Items.Add(item);
+    }
+
+    private async void OnDeleteButtonClicked(object sender, EventArgs e)
+    {
+        foreach(var item in Items)
+            await database.DeleteItemAsync(item);
+
+        await UpdateCollectionView();
+    }
 }
 
