@@ -20,13 +20,13 @@ namespace workshifter.Data
                 return;
 
             Database = new SQLiteAsyncConnection(DBConstants.DatabasePath, DBConstants.Flags);
-            var result = await Database.CreateTableAsync<Workshift>();
+            var result = await Database.CreateTableAsync<WorkshiftItem>();
         }
 
-        public async Task<List<Workshift>> GetItemsAsync()
+        public async Task<List<WorkshiftItem>> GetItemsAsync()
         {
             await Init();
-            return await Database.Table<Workshift>().ToListAsync();
+            return await Database.Table<WorkshiftItem>().ToListAsync();
         }
 
         //public async Task<List<Workshift>> GetItemsNotDoneAsync()
@@ -38,13 +38,13 @@ namespace workshifter.Data
         //    //return await Database.QueryAsync<Workshift>("SELECT * FROM [Workshift] WHERE [Done] = 0");
         //}
 
-        public async Task<Workshift> GetItemAsync(int id)
+        public async Task<WorkshiftItem> GetItemAsync(int id)
         {
             await Init();
-            return await Database.Table<Workshift>().Where(i => i.ID == id).FirstOrDefaultAsync();
+            return await Database.Table<WorkshiftItem>().Where(i => i.ID == id).FirstOrDefaultAsync();
         }
 
-        public async Task<int> SaveItemAsync(Workshift item)
+        public async Task<int> SaveItemAsync(WorkshiftItem item)
         {
             await Init();
             if (item.ID != 0)
@@ -57,7 +57,7 @@ namespace workshifter.Data
             }
         }
 
-        public async Task<int> DeleteItemAsync(Workshift item)
+        public async Task<int> DeleteItemAsync(WorkshiftItem item)
         {
             await Init();
             return await Database.DeleteAsync(item);
