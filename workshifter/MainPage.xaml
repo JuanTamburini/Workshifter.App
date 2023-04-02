@@ -4,14 +4,14 @@
              xmlns:model="clr-namespace:workshifter.Model"
              x:Class="workshifter.MainPage">
 
-    <Grid RowDefinitions="*, 80, 80">
+    <Grid RowDefinitions="*, 80, 80, 80">
         
         <CollectionView
             VerticalOptions="Fill"
             ItemsSource="{Binding Items}"
             SelectionMode="None" >
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Workshift">
+                <DataTemplate x:DataType="model:WorkshiftItem">
                     <Label Text="{Binding ID}"
                            Margin="20"/>
                 </DataTemplate>
@@ -29,6 +29,12 @@
             Text="Borrar todo"
             Margin="25, 0, 25, 25"
             Clicked="OnDeleteButtonClicked" />
+
+        <Button
+            Grid.Row="3"
+            Text="Ir"
+            Margin="25, 0, 25, 25"
+            Clicked="Button_Clicked" />
 
     </Grid>
 

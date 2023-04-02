@@ -1,13 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using workshifter.Data;
 using workshifter.Model;
+using workshifter.View;
 
 namespace workshifter;
 
 public partial class MainPage : ContentPage
 {
     WorkshiftDatabase database;
-    public ObservableCollection<Workshift> Items { get; set; } = new();
+    public ObservableCollection<WorkshiftItem> Items { get; set; } = new();
     public MainPage(WorkshiftDatabase workshiftDatabase)
 	{
 		InitializeComponent();
@@ -20,7 +21,7 @@ public partial class MainPage : ContentPage
 
 	private async void OnCreateItemClicked(object sender, EventArgs e)
 	{
-        await database.SaveItemAsync(new Workshift());
+        await database.SaveItemAsync(new WorkshiftItem());
         await UpdateCollectionView();
     }
 
@@ -39,6 +40,11 @@ public partial class MainPage : ContentPage
             await database.DeleteItemAsync(item);
 
         await UpdateCollectionView();
+    }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(WorkshiftPage));
     }
 }
 
